@@ -19,20 +19,21 @@ class Oystercard
     @balance = @balance + amount
   end
 
-  def deduct(amount)
-    @balance = @balance - amount
-  end
-
   def touch_in(entry_station)
     fail 'Insufficient funds' if @balance < FARE
-    @balance = @balance - FARE
+    deduct(FARE)
     @in_journey = true
   end
 
   def touch_out(exit_station)
-    @balance = @balance - FARE
+    deduct(FARE)
     @in_journey = false
   end
 
+private
+
+  def deduct(amount)
+    @balance = @balance - amount
+  end
 
 end

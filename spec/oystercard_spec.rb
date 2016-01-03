@@ -23,11 +23,6 @@ describe '#top up balance' do
 end
 
 describe '#touch in' do
-  it 'deducts a fare from the card' do
-    oystercard.top_up(maximum_balance)
-    expect{ oystercard.deduct(fare) }.to change{ oystercard.balance }.by -fare
-  end
-
   it 'allows a user to touch in' do
     oystercard.top_up(maximum_balance)
     expect{ oystercard.touch_in("Aldgate") }.to change{ oystercard.balance }.by -fare
@@ -42,7 +37,6 @@ describe '#touch in' do
   it 'raises an error if there is insufficient funds on the card' do
     expect{ oystercard.touch_in("Aldgate") }.to raise_error "Insufficient funds"
   end
-  it { is_expected.to respond_to(:deduct).with(1).argument }
   it { is_expected.to respond_to(:touch_in).with(1).argument }
 end
 
