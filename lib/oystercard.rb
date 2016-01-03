@@ -30,6 +30,7 @@ class Oystercard
   def touch_out(exit_station)
     deduct(FARE)
     @in_journey = false
+    @history << exit_station
   end
 
 private

@@ -14,11 +14,12 @@ end
 
 describe '#top up balance' do
   it 'tops up the balance of the card' do
-    expect{ oystercard.top_up(10) }.to change{ oystercard.balance }.by 10
+    expect{ oystercard.top_up(maximum_balance) }.to change{ oystercard.balance }.by maximum_balance
   end
 
   it 'raises an error if the user exceeds the maximum amount' do
-    expect{ oystercard.top_up(100) }.to raise_error "Maximum balance of £#{maximum_balance} exceeded"
+    oystercard.top_up(maximum_balance)
+    expect{ oystercard.top_up(1) }.to raise_error "Maximum balance of £#{maximum_balance} exceeded"
   end
 end
 
@@ -57,6 +58,13 @@ describe '#touch out' do
     oystercard.top_up(maximum_balance)
     oystercard.touch_in("Aldgate")
     expect{ oystercard.touch_out("Waterloo") }.to change{ oystercard.in_journey?}.to false
+  end
+
+  it 'stores the exit station on the oystercard history' do
+    oystercard.top_up(maximum_balance)
+    oystercard.touch_in("Aldgate")
+    oystercard.touch_out("Waterloo")
+    expect(oystercard.history).to eq ["Aldgate", "Waterloo"]
   end
     it { is_expected.to respond_to(:touch_out).with(1).argument }
 end
