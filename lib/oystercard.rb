@@ -24,6 +24,7 @@ class Oystercard
   end
 
   def touch_in(entry_station)
+    fail 'Insufficient funds' if @balance < FARE
     @balance = @balance - FARE
     @in_journey = true
   end

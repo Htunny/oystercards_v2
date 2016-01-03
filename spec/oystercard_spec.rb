@@ -38,6 +38,10 @@ describe '#touch in' do
     oystercard.touch_in("Aldgate")
     expect(oystercard.in_journey?).to eq true
   end
+
+  it 'raises an error if there is insufficient funds on the card' do
+    expect{ oystercard.touch_in("Aldgate") }.to raise_error "Insufficient funds"
+  end
   it { is_expected.to respond_to(:deduct).with(1).argument }
   it { is_expected.to respond_to(:touch_in).with(1).argument }
 end
