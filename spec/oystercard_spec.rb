@@ -37,6 +37,12 @@ describe '#touch in' do
   it 'raises an error if there is insufficient funds on the card' do
     expect{ oystercard.touch_in("Aldgate") }.to raise_error "Insufficient funds"
   end
+
+  it 'stores the entry station on the oystercard history' do
+    oystercard.top_up(maximum_balance)
+    oystercard.touch_in("Aldgate")
+    expect(oystercard.history).to eq ["Aldgate"]
+  end
   it { is_expected.to respond_to(:touch_in).with(1).argument }
 end
 
